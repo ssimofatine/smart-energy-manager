@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.smartenergy.model.Lectura;
 
+// LecturaDAO interface
 public interface LecturaDAO {
 
     Lectura save(Lectura lectura);
