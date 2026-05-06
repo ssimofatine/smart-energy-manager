@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.smartenergy.controller.DashboardController"
+      spacing="16"
+      styleClass="view-box">
+
+    <HBox spacing="14">
+        <VBox spacing="8" styleClass="summary-card" HBox.hgrow="ALWAYS">
+            <padding>
+                <Insets top="14" right="14" bottom="14" left="14"/>
+            </padding>
+            <Label text="Total kWh mes actual" styleClass="card-title"/>
+            <Label fx:id="totalKwhMesLabel" text="0.000 kWh" styleClass="card-value"/>
+        </VBox>
+
+        <VBox spacing="8" styleClass="summary-card" HBox.hgrow="ALWAYS">
+            <padding>
+                <Insets top="14" right="14" bottom="14" left="14"/>
+            </padding>
+            <Label text="Coste total mes (€)" styleClass="card-title"/>
+            <Label fx:id="costeTotalMesLabel" text="0.00 EUR" styleClass="card-value"/>
+        </VBox>
+
+        <VBox spacing="8" styleClass="summary-card" HBox.hgrow="ALWAYS">
+            <padding>
+                <Insets top="14" right="14" bottom="14" left="14"/>
+            </padding>
+            <Label text="Dispositivos activos" styleClass="card-title"/>
+            <Label fx:id="dispositivosActivosLabel" text="0" styleClass="card-value"/>
+        </VBox>
+    </HBox>
+
+    <VBox spacing="10" styleClass="detail-panel">
+        <padding>
+            <Insets top="14" right="14" bottom="14" left="14"/>
+        </padding>
+        <Label text="Consumo diario total (ultimos 7 dias)" styleClass="detail-title"/>
+        <BarChart fx:id="consumoBarChart" legendVisible="false" animated="false" VBox.vgrow="ALWAYS" styleClass="chart-root">
+            <xAxis>
+                <CategoryAxis label="Dia"/>
+            </xAxis>
+            <yAxis>
+                <NumberAxis label="kWh"/>
+            </yAxis>
+        </BarChart>
+    </VBox>
+
+</VBox>

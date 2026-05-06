@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.smartenergy.controller.DispositivoController"
+            styleClass="view-box">
+
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="4" right="4" bottom="12" left="4"/>
+            </padding>
+            <Label text="Dispositivos" styleClass="view-title"/>
+            <Button text="+ Nuevo" onAction="#onNuevo" styleClass="accent-button"/>
+        </HBox>
+    </top>
+
+    <center>
+        <TableView fx:id="dispositivosTable" styleClass="devices-table">
+            <columns>
+                <TableColumn fx:id="nombreColumn" text="Nombre" prefWidth="220"/>
+                <TableColumn fx:id="tipoColumn" text="Tipo" prefWidth="180"/>
+                <TableColumn fx:id="potenciaColumn" text="Potencia (W)" prefWidth="140"/>
+                <TableColumn fx:id="estadoColumn" text="Estado" prefWidth="120"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <bottom>
+        <VBox spacing="10" styleClass="detail-panel">
+            <padding>
+                <Insets top="14" right="14" bottom="14" left="14"/>
+            </padding>
+            <Label text="Detalle del dispositivo" styleClass="detail-title"/>
+            <Label fx:id="detalleNombreLabel" styleClass="view-subtitle" text="-"/>
+            <Label fx:id="detalleTipoLabel" styleClass="view-subtitle" text="-"/>
+            <Label fx:id="detallePotenciaLabel" styleClass="view-subtitle" text="-"/>
+            <Label fx:id="detalleEstadoLabel" styleClass="view-subtitle" text="-"/>
+            <HBox spacing="10">
+                <Button fx:id="editarButton" text="Editar" onAction="#onEditar" styleClass="nav-button"/>
+                <Button fx:id="eliminarButton" text="Eliminar" onAction="#onEliminar" styleClass="danger-button"/>
+            </HBox>
+        </VBox>
+    </bottom>
+
+</BorderPane>

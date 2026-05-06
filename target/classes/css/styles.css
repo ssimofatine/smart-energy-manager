@@ -1,0 +1,150 @@
+.app-root {
+    -fx-background-color: #1a1a2e;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.sidebar {
+    -fx-background-color: #131326;
+}
+
+.sidebar-title {
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 12 0;
+}
+
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-border-color: #e94560;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10 14 10 14;
+    -fx-cursor: hand;
+}
+
+.nav-button:hover {
+    -fx-background-color: #e94560;
+}
+
+.accent-button {
+    -fx-background-color: #e94560;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 8 14 8 14;
+    -fx-cursor: hand;
+}
+
+.danger-button {
+    -fx-background-color: #7a2030;
+    -fx-text-fill: white;
+    -fx-border-color: #e94560;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 10 14 10 14;
+    -fx-font-size: 14px;
+    -fx-pref-height: 38px;
+}
+
+.nav-button {
+    -fx-pref-height: 38px;
+}
+
+.content-pane {
+    -fx-background-color: #1a1a2e;
+    -fx-padding: 24;
+}
+
+.view-box {
+    -fx-padding: 10;
+}
+
+.view-title {
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.view-subtitle {
+    -fx-text-fill: white;
+    -fx-opacity: 0.85;
+    -fx-font-size: 14px;
+}
+
+.devices-table {
+    -fx-background-color: #151526;
+    -fx-control-inner-background: #151526;
+    -fx-table-cell-border-color: #2a2a40;
+}
+
+.devices-table .column-header-background {
+    -fx-background-color: #1f1f34;
+}
+
+.devices-table .column-header .label {
+    -fx-text-fill: white;
+}
+
+.devices-table .table-row-cell {
+    -fx-background-color: #151526;
+    -fx-text-fill: white;
+}
+
+.devices-table .table-row-cell:selected {
+    -fx-background-color: #e94560;
+}
+
+.detail-panel {
+    -fx-background-color: #131326;
+    -fx-background-radius: 8px;
+}
+
+.detail-title {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.summary-card {
+    -fx-background-color: #131326;
+    -fx-background-radius: 10px;
+}
+
+.card-title {
+    -fx-text-fill: white;
+    -fx-opacity: 0.85;
+    -fx-font-size: 13px;
+}
+
+.card-value {
+    -fx-text-fill: #e94560;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.chart-root {
+    -fx-background-color: transparent;
+}
+
+.chart-root .chart-plot-background {
+    -fx-background-color: #151526;
+}
+
+.chart-root .chart-title,
+.chart-root .axis-label,
+.chart-root .axis-tick-mark,
+.chart-root .axis-minor-tick-mark {
+    -fx-text-fill: white;
+    -fx-stroke: white;
+}
+
+.chart-root .axis {
+    -fx-tick-label-fill: white;
+}
+
+.chart-root .default-color0.chart-bar {
+    -fx-bar-fill: #e94560;
+}
