@@ -36,7 +36,7 @@ public class MainController implements Initializable {
 
     private void loadView(String fxmlName) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/smartenergy/fxml/" + fxmlName));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + fxmlName));
             contentPane.getChildren().clear();
             contentPane.getChildren().add(loader.load());
         } catch (IOException e) {
