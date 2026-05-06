@@ -12,7 +12,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
-import java.util.concurrent.CompletableFuture;
 
 import com.smartenergy.model.Lectura;
 import com.smartenergy.service.DispositivoService;
@@ -45,92 +44,174 @@ public class DashboardController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        runAsync(this::fetchDashboardData, this::renderDashboard);
+        runAsync(() -> {
+            return fetchDashboardData();
+        }, datos -> {
+            renderDashboard(datos);
+        });
     }
 
     private DashboardData fetchDashboardData() {
-        YearMonth currentMonth = YearMonth.now();
-        LocalDateTime startMonth = currentMonth.atDay(1).atStartOfDay();
-        LocalDateTime endMonth = currentMonth.atEndOfMonth().atTime(23, 59, 59);
+        YearMonth mesActual = YearMonth.now();
+        LocalDateTime inicioDelMes = mesActual.atDay(1).atStartOfDay();
+        LocalDateTime finDelMes = mesActual.atEndOfMonth().atTime(23, 59, 59);
 
-        List<Lectura> lecturasMes = lecturaService.findByFechaBetween(startMonth, endMonth);
-        double totalKwh = lecturasMes.stream().mapToDouble(l -> safe(l.getConsumoKwh())).sum();
-        double totalCoste = lecturasMes.stream().mapToDouble(l -> safe(l.getCosteEuros())).sum();
-        long activos = dispositivoService.findAll().stream().filter(d -> Boolean.TRUE.equals(d.getActivo())).count();
-        
-        LocalDate today = LocalDate.now();
-        LocalDate start = today.minusDays(6);
-        LocalDateTime from = start.atStartOfDay();
-        LocalDateTime to = today.atTime(23, 59, 59);
+        List<Lectura> lecturasDelMes = lecturaService.findByFechaBetween(inicioDelMes, finDelMes);
 
-        List<Lectura> lecturas = lecturaService.findByFechaBetween(from, to);
-        Map<LocalDate, Double> totalPorDia = new LinkedHashMap<>();
-        LocalDate pointer = start;
-        while (!pointer.isAfter(today)) {
-            totalPorDia.put(pointer, 0.0);
-            pointer = pointer.plusDays(1);
+        double sumaEnergia = 0.0;
+        double sumaDinero = 0.0;
+
+        for (int i = 0; i < lecturasDelMes.size(); i++) {
+            Lectura lec = lecturasDelMes.get(i);
+            sumaEnergia = sumaEnergia + safe(lec.getConsumoKwh());
+            sumaDinero = sumaDinero + safe(lec.getCosteEuros());
         }
 
-        for (Lectura lectura : lecturas) {
-            if (lectura.getFechaHora() == null) {
-                continue;
-            }
-            LocalDate date = lectura.getFechaHora().toLocalDate();
-            if (totalPorDia.containsKey(date)) {
-                totalPorDia.put(date, totalPorDia.get(date) + safe(lectura.getConsumoKwh()));
+        long dispositivosEncendidos = 0;
+        for (var dispositivo : dispositivoService.findAll()) {
+            if (dispositivo.getActivo() != null && dispositivo.getActivo() == true) {
+                dispositivosEncendidos++;
             }
         }
-        return new DashboardData(totalKwh, totalCoste, activos, totalPorDia);
+
+        LocalDate hoy = LocalDate.now();
+        LocalDate haceSeisDias = hoy.minusDays(6);
+        LocalDateTime fechaDesde = haceSeisDias.atStartOfDay();
+        LocalDateTime fechaHasta = hoy.atTime(23, 59, 59);
+
+        List<Lectura> lecturasSemana = lecturaService.findByFechaBetween(fechaDesde, fechaHasta);
+        Map<LocalDate, Double> mapaDias = new LinkedHashMap<>();
+
+        LocalDate diaBucle = haceSeisDias;
+        while (diaBucle.isBefore(hoy) || diaBucle.isEqual(hoy)) {
+            mapaDias.put(diaBucle, 0.0);
+            diaBucle = diaBucle.plusDays(1);
+        }
+
+        for (int i = 0; i < lecturasSemana.size(); i++) {
+            Lectura lectura = lecturasSemana.get(i);
+            if (lectura.getFechaHora() != null) {
+                LocalDate fechaDeLaLectura = lectura.getFechaHora().toLocalDate();
+                if (mapaDias.containsKey(fechaDeLaLectura)) {
+                    double valorViejo = mapaDias.get(fechaDeLaLectura);
+                    double valorNuevo = safe(lectura.getConsumoKwh());
+                    mapaDias.put(fechaDeLaLectura, valorViejo + valorNuevo);
+                }
+            }
+        }
+
+        DashboardData misDatos = new DashboardData(sumaEnergia, sumaDinero, dispositivosEncendidos, mapaDias);
+        return misDatos;
     }
 
     private void renderDashboard(DashboardData data) {
-        totalKwhMesLabel.setText(String.format("%.3f kWh", data.totalKwhMes()));
-        costeTotalMesLabel.setText(String.format("%.2f EUR", data.totalCosteMes()));
-        dispositivosActivosLabel.setText(String.valueOf(data.dispositivosActivos()));
+        String textoKwh = String.format("%.3f kWh", data.getTotalKwhMes());
+        totalKwhMesLabel.setText(textoKwh);
 
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.setName("Consumo diario (kWh)");
-        for (Map.Entry<LocalDate, Double> entry : data.totalPorDia().entrySet()) {
-            DayOfWeek dayOfWeek = entry.getKey().getDayOfWeek();
-            String label = dayOfWeek.getDisplayName(TextStyle.FULL, ES_LOCALE);
-            series.getData().add(new XYChart.Data<>(capitalize(label), round3(entry.getValue())));
+        String textoCoste = String.format("%.2f EUR", data.getTotalCosteMes());
+        costeTotalMesLabel.setText(textoCoste);
+
+        String textoDispositivos = String.valueOf(data.getDispositivosActivos());
+        dispositivosActivosLabel.setText(textoDispositivos);
+
+        XYChart.Series<String, Number> serieGrafico = new XYChart.Series<>();
+        serieGrafico.setName("Consumo diario (kWh)");
+
+        for (Map.Entry<LocalDate, Double> fila : data.getTotalPorDia().entrySet()) {
+            LocalDate fechaDia = fila.getKey();
+            Double valorConsumo = fila.getValue();
+
+            DayOfWeek diaSemana = fechaDia.getDayOfWeek();
+            String nombreDia = diaSemana.getDisplayName(TextStyle.FULL, ES_LOCALE);
+
+            String diaMayuscula = capitalize(nombreDia);
+            double valorRedondeado = round3(valorConsumo);
+
+            XYChart.Data<String, Number> datosGrafico = new XYChart.Data<>(diaMayuscula, valorRedondeado);
+            serieGrafico.getData().add(datosGrafico);
         }
 
         consumoBarChart.getData().clear();
-        consumoBarChart.getData().add(series);
+        consumoBarChart.getData().add(serieGrafico);
     }
 
     private String capitalize(String value) {
-        return value.substring(0, 1).toUpperCase(ES_LOCALE) + value.substring(1);
+        if (value == null || value.isEmpty()) {
+            return value;
+        }
+        String primeraLetra = value.substring(0, 1).toUpperCase(ES_LOCALE);
+        String restoPalabra = value.substring(1);
+        return primeraLetra + restoPalabra;
     }
 
     private double safe(Double value) {
-        return value == null ? 0.0 : value;
+        if (value == null) {
+            return 0.0;
+        } else {
+            return value;
+        }
     }
 
     private double round3(double value) {
-        return Math.round(value * 1000.0) / 1000.0;
+        double multiplicado = value * 1000.0;
+        double redondeado = Math.round(multiplicado);
+        return redondeado / 1000.0;
     }
 
     private <T> void runAsync(Callable<T> task, java.util.function.Consumer<T> onSuccess) {
-        CompletableFuture.supplyAsync(() -> {
-            try {
-                return task.call();
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-        }).thenAccept(result -> Platform.runLater(() -> onSuccess.accept(result)))
-                .exceptionally(ex -> {
-                    Platform.runLater(() -> {
-                        totalKwhMesLabel.setText("-");
-                        costeTotalMesLabel.setText("-");
-                        dispositivosActivosLabel.setText("-");
+        Thread hilo = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    T resultado = task.call();
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            onSuccess.accept(resultado);
+                        }
                     });
-                    return null;
-                });
+                } catch (Exception ex) {
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            totalKwhMesLabel.setText("-");
+                            costeTotalMesLabel.setText("-");
+                            dispositivosActivosLabel.setText("-");
+                        }
+                    });
+                }
+            }
+        });
+        hilo.start();
     }
 
-    private record DashboardData(double totalKwhMes, double totalCosteMes, long dispositivosActivos,
-                                 Map<LocalDate, Double> totalPorDia) {
+    private class DashboardData {
+        private double totalKwhMes;
+        private double totalCosteMes;
+        private long dispositivosActivos;
+        private Map<LocalDate, Double> totalPorDia;
+
+        public DashboardData(double totalKwhMes, double totalCosteMes, long dispositivosActivos, Map<LocalDate, Double> totalPorDia) {
+            this.totalKwhMes = totalKwhMes;
+            this.totalCosteMes = totalCosteMes;
+            this.dispositivosActivos = dispositivosActivos;
+            this.totalPorDia = totalPorDia;
+        }
+
+        public double getTotalKwhMes() {
+            return totalKwhMes;
+        }
+
+        public double getTotalCosteMes() {
+            return totalCosteMes;
+        }
+
+        public long getDispositivosActivos() {
+            return dispositivosActivos;
+        }
+
+        public Map<LocalDate, Double> getTotalPorDia() {
+            return totalPorDia;
+        }
     }
 }

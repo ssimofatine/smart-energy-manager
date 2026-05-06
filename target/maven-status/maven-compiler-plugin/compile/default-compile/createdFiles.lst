@@ -3,10 +3,12 @@ com\smartenergy\service\DataInitializer.class
 com\smartenergy\model\Dispositivo.class
 com\smartenergy\service\DispositivoService.class
 com\smartenergy\dao\DispositivoDAO.class
+com\smartenergy\controller\DashboardController$1$2.class
 com\smartenergy\controller\DispositivoController.class
 com\smartenergy\controller\LecturaController$Snapshot.class
 com\smartenergy\Main.class
 com\smartenergy\service\LecturaService.class
+com\smartenergy\controller\DashboardController$1.class
 com\smartenergy\controller\LecturaController$2.class
 com\smartenergy\dao\LecturaDAO.class
 com\smartenergy\controller\LecturaController$FilterOption.class
@@ -15,6 +17,7 @@ com\smartenergy\dao\LecturaDAOImpl.class
 com\smartenergy\controller\LecturaController$1.class
 com\smartenergy\controller\DashboardController$DashboardData.class
 com\smartenergy\dao\JpaManager.class
+com\smartenergy\controller\DashboardController$1$1.class
 com\smartenergy\controller\LecturaController.class
 com\smartenergy\controller\MainController.class
 com\smartenergy\controller\DashboardController.class

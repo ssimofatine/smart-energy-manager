@@ -1,61 +1,51 @@
 .app-root {
-    -fx-background-color: #1a1a2e;
-    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    -fx-background-color: #F0F0F0;
 }
 
 .sidebar {
-    -fx-background-color: #131326;
+    -fx-background-color: #CCCCCC;
 }
 
 .sidebar-title {
-    -fx-text-fill: white;
-    -fx-font-size: 20px;
+    -fx-text-fill: black;
+    -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-padding: 0 0 12 0;
+    -fx-padding: 10;
 }
 
 .nav-button {
-    -fx-background-color: transparent;
-    -fx-border-color: #e94560;
-    -fx-border-radius: 8px;
-    -fx-background-radius: 8px;
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-padding: 10 14 10 14;
-    -fx-cursor: hand;
+    -fx-background-color: #E0E0E0;
+    -fx-border-color: black;
+    -fx-text-fill: black;
+    -fx-font-size: 12px;
+    -fx-padding: 5;
 }
 
 .nav-button:hover {
-    -fx-background-color: #e94560;
+    -fx-background-color: #B0B0B0;
 }
 
 .accent-button {
-    -fx-background-color: #e94560;
+    -fx-background-color: blue;
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-background-radius: 8px;
-    -fx-padding: 8 14 8 14;
-    -fx-cursor: hand;
+    -fx-padding: 5;
 }
 
 .danger-button {
-    -fx-background-color: #7a2030;
+    -fx-background-color: red;
     -fx-text-fill: white;
-    -fx-border-color: #e94560;
-    -fx-border-radius: 8px;
-    -fx-background-radius: 8px;
-    -fx-padding: 10 14 10 14;
-    -fx-font-size: 14px;
-    -fx-pref-height: 38px;
+    -fx-border-color: black;
+    -fx-padding: 5;
 }
 
 .nav-button {
-    -fx-pref-height: 38px;
+    -fx-pref-height: 30px;
 }
 
 .content-pane {
-    -fx-background-color: #1a1a2e;
-    -fx-padding: 24;
+    -fx-background-color: white;
+    -fx-padding: 10;
 }
 
 .view-box {
@@ -63,88 +53,86 @@
 }
 
 .view-title {
-    -fx-text-fill: white;
-    -fx-font-size: 24px;
+    -fx-text-fill: black;
+    -fx-font-size: 20px;
     -fx-font-weight: bold;
 }
 
 .view-subtitle {
-    -fx-text-fill: white;
-    -fx-opacity: 0.85;
-    -fx-font-size: 14px;
+    -fx-text-fill: gray;
+    -fx-font-size: 12px;
 }
 
 .devices-table {
-    -fx-background-color: #151526;
-    -fx-control-inner-background: #151526;
-    -fx-table-cell-border-color: #2a2a40;
+    -fx-background-color: white;
+    -fx-border-color: black;
 }
 
 .devices-table .column-header-background {
-    -fx-background-color: #1f1f34;
+    -fx-background-color: #CCCCCC;
 }
 
 .devices-table .column-header .label {
-    -fx-text-fill: white;
+    -fx-text-fill: black;
 }
 
 .devices-table .table-row-cell {
-    -fx-background-color: #151526;
-    -fx-text-fill: white;
+    -fx-background-color: white;
+    -fx-text-fill: black;
 }
 
 .devices-table .table-row-cell:selected {
-    -fx-background-color: #e94560;
+    -fx-background-color: lightblue;
+    -fx-text-fill: black;
 }
 
 .detail-panel {
-    -fx-background-color: #131326;
-    -fx-background-radius: 8px;
+    -fx-background-color: #EFEFEF;
+    -fx-border-color: gray;
 }
 
 .detail-title {
-    -fx-text-fill: white;
-    -fx-font-size: 16px;
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
     -fx-font-weight: bold;
 }
 
 .summary-card {
-    -fx-background-color: #131326;
-    -fx-background-radius: 10px;
+    -fx-background-color: white;
+    -fx-border-color: black;
 }
 
 .card-title {
-    -fx-text-fill: white;
-    -fx-opacity: 0.85;
-    -fx-font-size: 13px;
+    -fx-text-fill: gray;
+    -fx-font-size: 12px;
 }
 
 .card-value {
-    -fx-text-fill: #e94560;
-    -fx-font-size: 22px;
+    -fx-text-fill: blue;
+    -fx-font-size: 18px;
     -fx-font-weight: bold;
 }
 
 .chart-root {
-    -fx-background-color: transparent;
+    -fx-background-color: white;
 }
 
 .chart-root .chart-plot-background {
-    -fx-background-color: #151526;
+    -fx-background-color: white;
 }
 
 .chart-root .chart-title,
 .chart-root .axis-label,
 .chart-root .axis-tick-mark,
 .chart-root .axis-minor-tick-mark {
-    -fx-text-fill: white;
-    -fx-stroke: white;
+    -fx-text-fill: black;
+    -fx-stroke: black;
 }
 
 .chart-root .axis {
-    -fx-tick-label-fill: white;
+    -fx-tick-label-fill: black;
 }
 
 .chart-root .default-color0.chart-bar {
-    -fx-bar-fill: #e94560;
+    -fx-bar-fill: blue;
 }

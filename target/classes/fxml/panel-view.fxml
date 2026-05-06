@@ -9,4 +9,5 @@
       styleClass="view-box">
     <Label text="Panel principal" styleClass="view-title"/>
     <Label text="Resumen general del consumo energetico." styleClass="view-subtitle"/>
+
 </VBox>
