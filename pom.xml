@@ -74,7 +74,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>com.smartenergy.MainApp</mainClass>
+                    <mainClass>com.smartenergy.Main</mainClass>
                 </configuration>
             </plugin>
         </plugins>
